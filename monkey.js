@@ -14,7 +14,8 @@ function hideSponsored({target}){
     //console.log(target.innerText);
     var regexSponso = /.*Sponsorisé.*/;
     if(target.innerText.match(regexSponso)){
-      setTimeout(function(){ target.remove(); console.log("ad blocked: " + target.id); }, 10);
+      target.remove();
+      console.log("ad blocked: " + target.id);
     }
   }
 }
