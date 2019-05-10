@@ -5,7 +5,6 @@
 // @description  Auto Close Sponsored fb
 // @author       taga
 // @match        *://*.facebook.com/*
-// @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js 
 // ==/UserScript==
 
 function hideSponsored({target}){
