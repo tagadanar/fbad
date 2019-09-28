@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Close Sponsored fb
-// @namespace    test
+// @namespace    prod
 // @version      1.0.0
 // @description  Auto Close Sponsored fb
 // @author       taga
