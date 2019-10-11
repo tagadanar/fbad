@@ -1,30 +1,36 @@
 // ==UserScript==
 // @name         Auto Close Sponsored fb
 // @namespace    prod
-// @version      1.0.2
+// @version      1.0.3
 // @description  Auto Close Sponsored fb
 // @run-at       document-end
 // @author       taga
 // @match        *://*.facebook.com/*
+// @updateURL    https://github.com/tagadanar/fbad/raw/master/fbad.user.js
+// @downloadURL  https://github.com/tagadanar/fbad/raw/master/fbad.user.js
 // ==/UserScript==
 
 (function() {
   // special check data-content shenanigan
-	var globalSponso = '';
-  function allDescendants(node) {
-    for(var i = 0; i < node.childNodes.length; i++) {
-      var child = node.childNodes[i];
-      addToString(child);
-      allDescendants(child);
-    }
-  }
-  function addToString(node) {
-    try{
-      if(getComputedStyle(node, null).display != 'none'
-         && node.dataset && node.dataset.content){
-        globalSponso += node.dataset.content;
+  function checkSponsored(node) {
+    var result = '';
+    function allDescendants(node) {
+      for(var i = 0; i < node.childNodes.length; i++) {
+        var child = node.childNodes[i];
+        addToString(child);
+        allDescendants(child);
       }
-    }catch(e){}
+    }
+    function addToString(node) {
+      try{
+        if(getComputedStyle(node, null).display != 'none'
+          && node.dataset && node.dataset.content){
+          result += node.dataset.content;
+        }
+      }catch(e){}
+    }
+    allDescendants(node);
+    return result;
   }
   
   function hideSponsored({target}){
@@ -35,11 +41,10 @@
         console.log("ad blocked: " + target.id);
         target.remove();
       } else {
-        globalSponso = '';
-        allDescendants(target);
-        if(globalSponso.match(regexSponso)){
+        var sponsoStr = checkSponsored(target);
+        if(sponsoStr.match(regexSponso)){
           console.log("ad blocked (data-content): " + target.id);
-        	target.remove();
+            target.remove();
         }
       }
     }
